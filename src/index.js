@@ -1,18 +1,46 @@
 const _ = require('lodash');
 const pkg = require('../package.json');
+const Biz = require('./biz.js');
+
 const debug = require('debug')(pkg.name);
 module.exports = {
   bind: (fpm) => {
-
-    const bizModule = { };
-    // Run When Server Init
-    fpm.registerAction('INIT', () => {
-      const c = fpm.getConfig()
-      debug('%o', c);
+    const options = fpm.getConfig('tianyi', {
+      appId: 'XdbNkfbFSRYPJhs4H2EJ4G12w6Aa',
+      secret: 'N5fUGGNl9aJIDapXNVkI3SVIfCYa',
+      webhook: 'http://iot.yunplus.io/webhook/tianyi/notify/datachange',
     })
+    const bizModule = Biz(fpm, options);
 
+    const subscribe = async () => {
+      try {
+        const data = await bizModule.subscribe({ notifyType: 'deviceDataChanged', callbackUrl: options.webhook });
+        return data;
+      } catch (error) {
+        debug('error %O', error)
+        return Promise.reject({ message: error.message, });
+      }
+    }
     fpm.registerAction('BEFORE_SERVER_START', () => {
-      console.log('Run BEFORE_SERVER_START Actions')
+      fpm.extendModule('tianyi', bizModule);
+
+      // make sure the webhook url has been subscribed!
+      bizModule.subscriptions({notifyType: 'deviceDataChanged'})
+        .then(data => {
+          const { totalCount, subscriptions } = data;
+          if(totalCount < 1){
+            subscribe();
+            return;
+          }
+          if(undefined === _.find(subscriptions, { callbackUrl: options.webhook })){
+            subscribe();
+            return;
+          }
+        })
+        .catch(err => {
+          debug('ERROR: %O', err);
+        })
+      //
     })
     return bizModule;
   }
