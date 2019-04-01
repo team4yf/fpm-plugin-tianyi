@@ -25,3 +25,4 @@ key.js
 db.lock
 config.json
 *-lock.json
+token.json

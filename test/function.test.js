@@ -21,4 +21,17 @@ describe('Function', function(){
       throw error;
     }
   });
+
+  it('Function send', async () => {
+    try {
+      const data = await new Func('tianyi.send').invoke({
+        deviceId: '141c0c85-24ca-4d2d-bf57-7e45591a3b88',
+        command: { "serviceId": "Cmd", "method": "Set_Cmd", "paras": {"EXTRA":2,"LENGTH":8,"FN":3,"DATA_1": -66052,"DATA_2":4} } 
+      });
+      console.log(data);
+      assert.strictEqual(data == undefined, false, 'should not be undefined');
+    } catch (error) {
+      throw error;
+    }
+  });
 })
