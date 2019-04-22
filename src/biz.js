@@ -3,13 +3,13 @@ const assert = require('assert');
 const debug = require('debug')('fpm-plugin-tianyi:biz');
 const { getToken } = require('../kit/auth');
 const { sendCmd } = require('../kit/cmd');
-
+const { defineUrlPrefix } = require('../kit/httpsutil');
 const { subscriptions, subscribe } = require('../kit/subscribe');
 
 module.exports = (fpm, options) => {
 
-  const { appId, secret } = options;
-
+  const { appId, secret, baseUrl } = options;
+  defineUrlPrefix(baseUrl);
   // handle the notify webhook
   fpm.subscribe(`#webhook/tianyi/notify`, (topic, message) => {
     // console.log(topic, message);

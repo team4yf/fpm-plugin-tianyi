@@ -1,6 +1,6 @@
 {
   "name": "fpm-plugin-tianyi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Plugin Named [fpm-plugin-tianyi] For YF-FPM-SERVER~",
   "main": "src/index.js",
   "scripts": {

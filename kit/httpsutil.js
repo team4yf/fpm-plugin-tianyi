@@ -14,6 +14,12 @@ const ContentType_Json = {
   'content-type': 'application/json',
 };
 
+let urlPrefix = 'https://device.api.ct10649.com:8743'
+
+const defineUrlPrefix = ( prefix ) => {
+  urlPrefix = prefix;
+  debug('new urlprefix defined %s', urlPrefix);
+}
 const _options = {
   url: null,
   method: 'POST',
@@ -28,7 +34,17 @@ const _options = {
 
 const doRequest = ( options ) => {
   debug('%O', options)
+
   return new Promise(( rs, rj) => {
+    try {
+      assert(!!options.url, 'URL required!') 
+    } catch (error) {
+      rj({ error })
+      return;
+    }
+    if(!_.startsWith(options.url, 'http')){
+      options.url = urlPrefix + options.url;
+    }
     request(options, (error, response, body) => {
       if(error){
         rj({ error })
@@ -74,4 +90,5 @@ const getJson = (args) => {
 }
 exports.postJson = postCreator( 'Json' );
 exports.postForm = postCreator( 'Form' );
+exports.defineUrlPrefix = defineUrlPrefix;
 exports.getJson = getJson;

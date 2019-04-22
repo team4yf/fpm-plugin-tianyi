@@ -14,7 +14,8 @@ npm add fpm-plugin-tianyi --save
     "tianyi": {
         "appId": "****",
         "secret": "**",
-        "webhook": "http://${****}/webhook/tianyi/notify/datachange"    // http的协议只能用于调试，正式环境还是需要切换成https
+        "webhook": "http://${****}/webhook/tianyi/notify/datachange",    // http的协议只能用于调试，正式环境还是需要切换成https
+        "baseUrl": "https://device.api.ct10649.com:8743"    // This is the final tianyi iot gateway
     }
 }
 ```

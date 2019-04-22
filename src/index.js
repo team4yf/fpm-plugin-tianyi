@@ -3,13 +3,20 @@ const pkg = require('../package.json');
 const Biz = require('./biz.js');
 
 const debug = require('debug')(pkg.name);
+
 module.exports = {
   bind: (fpm) => {
-    const options = fpm.getConfig('tianyi', {
-      appId: 'XdbNkfbFSRYPJhs4H2EJ4G12w6Aa',
-      secret: 'N5fUGGNl9aJIDapXNVkI3SVIfCYa',
-      webhook: 'http://iot.yunplus.io/webhook/tianyi/notify/datachange',
-    })
+    const options = _.assign({
+        baseUrl: 'https://device.api.ct10649.com:8743'
+      },
+      fpm.getConfig('tianyi', {
+        appId: 'XdbNkfbFSRYPJhs4H2EJ4G12w6Aa',
+        secret: 'N5fUGGNl9aJIDapXNVkI3SVIfCYa',
+        webhook: 'https://iot.yunplus.io/webhook/tianyi/notify/datachange',
+        baseUrl: 'https://device.api.ct10649.com:8743',
+      }) 
+    )
+
     const bizModule = Biz(fpm, options);
 
     const subscribe = async () => {
