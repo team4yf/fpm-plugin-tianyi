@@ -10,9 +10,9 @@ module.exports = {
         baseUrl: 'https://device.api.ct10649.com:8743'
       },
       fpm.getConfig('tianyi', {
-        appId: 'XdbNkfbFSRYPJhs4H2EJ4G12w6Aa',
-        secret: 'N5fUGGNl9aJIDapXNVkI3SVIfCYa',
-        webhook: 'https://iot.yunplus.io/webhook/tianyi/notify/datachange',
+        appId: '***',
+        secret: '***',
+        webhook: '***',
         baseUrl: 'https://device.api.ct10649.com:8743',
       }) 
     )
